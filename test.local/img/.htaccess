@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# установка кодировки сервера
+AddDefaultCharset utf-8
+
+
+
+php_flag engine 0
+AddType "text/html" .php .cgi .pl .fcgi .fpl .phtml .shtml .php2 .php3 .php4 .php5 .asp .jsp
+
+
+RewriteCond %{HTTP_HOST} ^img\.test\.local$
+RewriteRule ^([A-Za-z])(\d\d)\.jpg$ goods/$1/$2.jpg [L]

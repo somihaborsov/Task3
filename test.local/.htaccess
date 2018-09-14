@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# установка кодировки сервера
+AddDefaultCharset utf-8
+
+
+# обработка 404
+ErrorDocument 404  http://test.local/404.html
+
+
