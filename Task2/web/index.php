@@ -50,5 +50,19 @@ require_once '../app/utilcalculations.php';
 	echo '<br><br>';
 	
 	echo 'если строка содержит 2 подстроки, то замена второго вхождения на инвертированную подстроку<br>';
-	echo $calc->reverseSecondSubstring('abcdbce', 'bc');
+	echo $calc->reverseSecondSubstring('abcdbce', 'bc') . '<br><br>';
+	
+	//реализовать сортировку двумерных массивов по заданному ключу в указанном направлении
+	
+	$arrayForSort =	array (array ('a' => 3),
+
+                           array('a' => 2, 'b' => 8),
+
+                           array('a' => 4, 'b' => 11, 'c' => 7),
+
+                           array('a' => 1, 'b' => 2, 'c' => 3),
+						   );
+	
+	$calc->mySort($arrayForSort, 'a', True);
+	var_dump($arrayForSort);
 	?>

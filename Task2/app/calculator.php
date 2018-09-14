@@ -1,5 +1,5 @@
-<?php 
-require_once 'utilcalculations.php';
+	<?php 
+	require_once 'utilcalculations.php';
 
 class Calculator 
 {
@@ -103,6 +103,15 @@ class Calculator
 		else return "количество подстрок не равно двум";
 
 	}
-
+	
+	public function mySort(&$array, $key, $isAsc) {
+		$tempArray = array_column($array, $key);
+		if ($isAsc == TRUE) {
+			return array_multisort($tempArray, SORT_NUMERIC, $array);
+		}
+		else {
+		return array_multisort($tempArray, SORT_NUMERIC, SORT_DESC, $array);
+		}
+	}	
 }
 ?>
