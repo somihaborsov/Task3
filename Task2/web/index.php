@@ -47,4 +47,8 @@ require_once '../app/utilcalculations.php';
 
 	echo 'организуем вывод в табличном виде<br>';
 	$printer->printTable($arr);
+	echo '<br><br>';
+	
+	echo 'если строка содержит 2 подстроки, то замена второго вхождения на инвертированную подстроку<br>';
+	echo $calc->reverseSecondSubstring('abcdbce', 'bc');
 	?>

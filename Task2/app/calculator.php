@@ -91,5 +91,18 @@ class Calculator
 			else $value['flag'] = '';
 		}
 	}
+	
+	public function reverseSecondSubstring($haystack, $needle)		{
+
+		if (substr_count($haystack, $needle) == 2) {
+
+		return substr_replace($haystack, strrev($needle), strripos($haystack, $needle), strlen($needle));
+
+		}
+
+		else return "количество подстрок не равно двум";
+
+	}
+
 }
 ?>
