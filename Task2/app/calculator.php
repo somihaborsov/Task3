@@ -6,6 +6,7 @@ class Calculator
 	// Количество простых чисел от .. и до ..
 	public function countSimpleNumbers($from, $to) 
 	{
+		if (!is_numeric($from) || !is_numeric($to)) throw new Exception('Аргумент не является числом!');
 		$count = 0;
 		for ($i = $from; $i <= $to; $i++)
 		{
@@ -46,6 +47,9 @@ class Calculator
 	public static function ext($arg, $degree) 
 	{
 		$result = 0;
+		if ($degree < 0|| $arg < 0) {
+			throw new Exception('Значения аргументов могут быть только неотрицательными!');
+		}
 		if ($degree == 0) {
 			$result = 1;
 			return $result;
@@ -54,9 +58,6 @@ class Calculator
 			$result = $arg;
 			return $result;
 		} 
-		elseif ($degree < 0 || $arg < 0) {
-			return "числа должны быть положительными";	
-		}
 		elseif ($degree > 1) {						
 			$result = $arg;
 			for ($i = 2; $i <= $degree; $i++)
@@ -73,6 +74,9 @@ class Calculator
 		$min = $array[0];
 		foreach ($array as $value) 
 		{
+			if (!is_numeric($value)) {
+				throw new Exception('Аргумент не является числом!');
+			}
 			if ($min > $value) {
 				$min = $value;
 			}
@@ -92,20 +96,30 @@ class Calculator
 		}
 	}
 	
-	public function reverseSecondSubstring($haystack, $needle)		{
+	//Замена второго вхождения на инвертированную подстроку
+	public function reverseSecondSubstring($haystack, $needle) {
 
 		if (substr_count($haystack, $needle) == 2) {
 
 		return substr_replace($haystack, strrev($needle), strripos($haystack, $needle), strlen($needle));
-
 		}
-
-		else return "количество подстрок не равно двум";
+		else {
+			throw new Exception('Количество подстрок не равно двум!');
+		}
 
 	}
 	
+	//Сортировка двумерных массивов по заданному ключу в указанном направлении
 	public function mySort(&$array, $key, $isAsc) {
+		//Проверяем, во всех ли строках массива есть нужный ключ
+		foreach ($array as $val) {
+			if (!isset($val[$key])) {
+				throw new Exception('Ключ отсутствует в одной или более строк массива');
+			}
+		}
+		
 		$tempArray = array_column($array, $key);
+		if (!isset($key)) throw Exception("wtf");
 		if ($isAsc == TRUE) {
 			return array_multisort($tempArray, SORT_NUMERIC, $array);
 		}
