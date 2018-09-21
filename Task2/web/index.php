@@ -79,6 +79,21 @@ require_once '../app/connect_db.php';
 	$calc->mySort($arrayForSort, 'a', True);
 	var_dump($arrayForSort);
 
-//echo 'Генерируем предупреждение';
-//filemtime("test");
+	echo 'Выводим максимальную и минимальную цену каждого продукта' . '<br><br>';
+	$query = "SELECT DISTINCT products.product_name,
+MAX(prices.price_value) as max_price,
+MIN(prices.price_value) as min_price
+from products INNER JOIN prices
+ON products.product_id = prices.product_id
+GROUP BY products.product_name";
+$cat = $pdo->query($query);
+	
+	try {
+while($catalog = $cat->fetch())
+	//var_dump($catalog);
+	echo $catalog['product_name'] . "   " . $catalog['max_price'] . "   " . $catalog['min_price'] . "<br>";
+//echo $catalog['product_name'] . $catalog['city_price'] . $catalog['obl_price'] . "<br />";
+} catch (PDOException $e) {
+echo "Ошибка выполнения запроса: " . $e->getMessage();
+}		
 	?>
