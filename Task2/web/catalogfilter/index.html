@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>   
+   <form method="get">
+   <p><input type="search" name="search" placeholder="Поиск по сайту"> 
+   <input type="submit" name="submit_search" value="Найти"></p>
+  </form>
+        
+        
+<?php
+    require_once '../../app/connect_db.php';
+    
+    //Создаем строку запроса SQL
+    $sql_base = "SELECT product_name FROM products WHERE ";
+    $sql_where_exp = '';
+	
+    if(!empty($_GET["search"]))
+	{
+            $value = $_GET["search"];
+	    $sql_where_exp = "product_name LIKE '%$value%'";
+	}
+    $sql = $sql_base . $sql_where_exp;
+    
+    //Ищем продукты в базе данных
+    if(isset($_GET["submit_search"])){
+        $stmt1 = $pdo->query($sql);	
+        try {
+            while($catalog = $stmt1->fetch())
+            echo $catalog['product_name'] . "<br />";
+	} 
+        catch (PDOException $e) {
+            echo "Ошибка выполнения запроса: " . $e->getMessage();
+	}
+    } 
+?>
+    </body>
+</html>

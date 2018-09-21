@@ -5,6 +5,7 @@ require_once '../app/calculator.php';
 require_once '../app/printer.php';
 require_once '../app/utilcalculations.php';
 require_once '../app/errorhandler.php';
+require_once '../app/connect_db.php';
 
 // регистрируем свой обработчик ошибок и исключений.
 (new ErrorHandler)->register();
