@@ -11,12 +11,17 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <p>Загрузка файла xml в базу данных</p>
         <form action="upload.php" enctype="multipart/form-data" method="post">
             <p><input type="file" name="fileToUpload" id="fileToUpload"></p>
             
-            <input type="submit" name="submit" value="Submit"/>
+            <input type="submit" name="submit" value="Загрузить в БД!"/>
         </form> 
         
+        <p>Экспорт Каталога из БД в xml-файл</p>
+        <form action="script.php" enctype="multipart/form-data" method="post">
+            <input type="submit" name="submit-export" value="Выгрузить в xml!"/>
+        </form>
     
     </body>
 </html>
