@@ -11,37 +11,51 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>   
-   <form method="get">
+        <form action="filterbyname.php" method="get">
    <p><input type="search" name="search" placeholder="Поиск по сайту"> 
    <input type="submit" name="submit_search" value="Найти"></p>
   </form>
-        
-        
-<?php
-    require_once '../../app/connect_db.php';
-    
-    //Создаем строку запроса SQL
-    $sql_base = "SELECT product_name FROM products WHERE ";
-    $sql_where_exp = '';
-	
-    if(!empty($_GET["search"]))
-	{
-            $value = $_GET["search"];
-	    $sql_where_exp = "product_name LIKE '%$value%'";
+   
+        <?php
+        require_once '../../app/connect_db.php';
+       //Вывод разделов и подразделов
+	//Разделы
+	$query_headings1 = "SELECT * from headings WHERE parent_id ='0'";
+	$stmt_headings1 = $pdo->query($query_headings1);
+	while($catalog_headings1 = $stmt_headings1->fetch()) {
+		echo $catalog_headings1['heading_name'] . '<br><br>';
+		//Подразделы
+		$query_headings2 = "SELECT * from headings WHERE parent_id = '" . $catalog_headings1['heading_id'] . "'";
+		$stmt_headings2 = $pdo->query($query_headings2);
+		while($catalog_headings2 = $stmt_headings2->fetch()) {
+			echo $catalog_headings2['heading_name'] . '<br>';
+			//Товары
+			$query_products = "SELECT headings.heading_id, products_headings.product_id, products.product_name "
+					. "FROM headings INNER JOIN products_headings "
+					. "ON headings.heading_id = products_headings.heading_id INNER JOIN products "
+					. "ON products_headings.product_id = products.product_id WHERE headings.heading_id = '" . $catalog_headings2['heading_id'] . "'";
+			$stmt_products = $pdo->query($query_products);
+			while ($catalog_products = $stmt_products->fetch()) {
+				echo $catalog_products['product_name'] . ' ';
+				//Цены
+				$query_prices = "SELECT * FROM prices WHERE price_type = 'В городе' AND product_id = '" . $catalog_products['product_id'] . "'";
+				$stmt_prices = $pdo->query($query_prices);
+				while($catalog_prices = $stmt_prices->fetch())	{
+					echo $catalog_prices['price_value'] . '<br>';
+				}
+			}
+                                echo '<br><br>';
+		}
 	}
-    $sql = $sql_base . $sql_where_exp;
-    
-    //Ищем продукты в базе данных
-    if(isset($_GET["submit_search"])){
-        $stmt1 = $pdo->query($sql);	
-        try {
-            while($catalog = $stmt1->fetch())
-            echo $catalog['product_name'] . "<br />";
-	} 
-        catch (PDOException $e) {
-            echo "Ошибка выполнения запроса: " . $e->getMessage();
-	}
-    } 
-?>
-    </body>
+
+        ?>
+        
+       
+        
+
+    <form action="filterbyprice.php" method="get">
+   <input type="search" name="from" placeholder="От"> 
+   <input type="search" name="to" placeholder="До">
+   <input type="submit" name="submit_price_filter" value="Поиск">
+  </form>
 </html>
